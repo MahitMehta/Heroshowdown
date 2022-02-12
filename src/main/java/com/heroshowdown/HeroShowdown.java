@@ -26,12 +26,15 @@ public class HeroShowdown {
         this.townsPeople.add(new NormalGuy("Alexander", "Electrician"));
 
         // Good Guys
-        Person pikachu = new GoodGuy("Pikachu", "Lighting Boss", "Thunder Jolt", false, 10, "Pika Pika");
-        this.townsPeople.add(pikachu);
+        Person aardart = new GoodGuy("Aardart", "Lighting Boss", "Thunder Jolt", false, 10, "Pika Pika");
+        this.townsPeople.add(aardart);
 
         // Bad Guys 
-        Person zekrom = new BadGuy("Zekrom", "Destroy Pikahu", "Teravolt", false, 15, "Mwahahahaha");
-        this.townsPeople.add(zekrom);
+        Person bamboon = new BadGuy("Bamboon", "Destroy Aardart", "Teravolt", false, 15, "Mwahahahaha");
+        this.townsPeople.add(bamboon);
+
+        System.out.println("\nWelcome to Hero Showdown by Mahit Mehta!\n");
+        System.out.println("To play, press ENTER after each statement.");
 
         while (this.continueGame()) {
             this.roundInteraction(args);
@@ -115,7 +118,26 @@ public class HeroShowdown {
     }
 
     private void ultimateShowDown(GoodGuy p1, BadGuy p2, String[] args) {
-        System.out.println("\nUltimate showdown commences");
+        System.out.println("\nUltimate showdown commences\n");
+
+        System.out.print("The Super Hero's Power Level is at " + p1.getCurrentPowerLevel());
+        scan.nextLine(); 
+        System.out.print("\nThe Super Villian's Power Level is at " + p2.getPowerLevel());
+        scan.nextLine(); 
+
+        if (p2.getPowerLevel() > p1.getCurrentPowerLevel()) {
+            System.out.print("\n" + p2.getEvilLaugh() + ", " + p2.getName() + " Wins!");
+        } else if (p2.getPowerLevel() < p1.getCurrentPowerLevel()) {
+            System.out.print("\n" + p1.getName() + " Wins and Saves the Town Once Again!");
+        } else {
+            System.out.print("\n" + p1.getName() + " uses all his strength and beats " + p2.getName() + ".");
+        }
+        scan.nextLine(); 
+
+        System.out.println("\nArraylists: ");
+        System.out.println("\nTownsPeople: " + this.townsPeople);
+        System.out.println("\nSafe People: " + this.safePeople);
+        System.out.println("\nUnfortunate Souls: " + this.unfortunateSouls + "\n");
         // System.out.println(p1.getCurrentPowerLevel());
         // System.out.println(p2.getPowerLevel());
         this.showdownEventOccured = true;

@@ -6,9 +6,11 @@ import java.io.File;
 
 public class AudioManager {
     public final MediaPlayer fieldMusic; 
+    public final MediaPlayer battleMusic; 
 
     public AudioManager() {
         this.fieldMusic = this.getMediaPlayer("field_music.wav", true);
+        this.battleMusic = this.getMediaPlayer("battle_music.mp3", true);
     }
 
     private MediaPlayer getMediaPlayer(String path) {

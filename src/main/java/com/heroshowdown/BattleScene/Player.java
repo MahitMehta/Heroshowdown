@@ -1,6 +1,7 @@
 package com.heroshowdown.BattleScene;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -25,6 +26,10 @@ public class Player {
     private int y;
     private int speed = 2; 
     private double frame = 0; 
+    private boolean playerIntersectingTallGrass = false; 
+    private boolean displayBattle = false; 
+
+    public boolean getDisplayBattle() { return this.displayBattle; }
 
     public Player(GraphicsContext ctx) {
         this.ctx = ctx; 
@@ -58,7 +63,12 @@ public class Player {
         this.framesFront.add(ImageLoader.loadFXImage("sprites/front3.png"));
     }
 
-    public void render() {
+    public Rectangle2D getPlayerBoundary() {
+        return new Rectangle2D(this.x, this.y, 16, 16);
+    }
+
+    public void render(boolean playerIntersectingTallGrass) {
+        this.playerIntersectingTallGrass = playerIntersectingTallGrass; 
         this.movementListener();
 
         if (this.direction.equals("right")) {
@@ -72,35 +82,49 @@ public class Player {
         }
     }
 
+    public void attemptIntersectPokemon() {
+        int randomChance = (int) (Math.random() * 50);
+        if (randomChance == 9) {
+            this.displayBattle = true; 
+        }
+    }
+
     public void movementListener() {
         this.canvas.requestFocus();
         this.canvas.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
-                System.out.println(x + " " + y);
                 if (event.getCode() == KeyCode.UP) {
                     direction = "back";
                     y -= speed; 
                     if (frame < framesBack.size() - 1) {
                         frame += 0.5;
                     } else frame = 0; 
+
+                    if (playerIntersectingTallGrass) attemptIntersectPokemon();
                 } else if (event.getCode() == KeyCode.RIGHT) {
                     direction = "right";
                     x+= speed; 
                     if (frame < framesRight.size() - 1) {
                         frame += 0.5;
                     } else frame = 0; 
+
+                    if (playerIntersectingTallGrass) attemptIntersectPokemon();
                 } else if (event.getCode() == KeyCode.DOWN) {
                     direction = "front";
                     y += speed; 
                     if (frame < framesFront.size() - 1) {
                         frame += 0.5;
                     } else frame = 0; 
+
+                    if (playerIntersectingTallGrass) attemptIntersectPokemon();
                 } else if (event.getCode() == KeyCode.LEFT) {
                     direction = "left";
                     x-= speed; 
                     if (frame < framesLeft.size() - 1) {
                         frame += 0.5;
-                    } else frame = 0; 
+                    } else frame = 0;
+                    
+                    if (playerIntersectingTallGrass) attemptIntersectPokemon();
                 }
             }
         });

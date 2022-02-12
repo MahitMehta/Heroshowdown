@@ -8,6 +8,10 @@ abstract public class Person {
         this.job = job; 
     }
 
+    public String toString() {
+        return this.getName();
+    }
+
     public String getName() {return this.name; }
 
     public String getJob() { return this.job; }

@@ -1,12 +1,13 @@
 package com.heroshowdown.BattleScene;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+
 import java.awt.Rectangle;
 import javafx.stage.Stage;
 import java.awt.image.BufferedImage;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import javax.imageio.ImageIO;
-
 import com.utils.ImageLoader;
 
 import org.mapeditor.core.Map;
@@ -25,12 +25,16 @@ import org.mapeditor.io.TMXMapReader;
 
 public class TallGrassScene  {
     private final AudioManager audio;
+    private final Player player; 
+    private final GraphicsContext ctx; 
     private Stage rootStage; 
     private Image background; 
-    private GraphicsContext ctx; 
 
-    public TallGrassScene(GraphicsContext ctx) {
+    public AudioManager getAudioManager() { return this.audio; }
+
+    public TallGrassScene(GraphicsContext ctx, Player player) {
         this.audio = new AudioManager();
+        this.player = player; 
         this.ctx = ctx; 
 
         try {
@@ -38,6 +42,15 @@ public class TallGrassScene  {
         } catch (Exception e) {
             this.background = null; 
         }
+    }
+
+    public boolean playerIntersectingTallGrass() {
+        return this.player.getPlayerBoundary().intersects(this.getTallGrassBoundary());
+    }
+
+    public Rectangle2D getTallGrassBoundary() {
+        Rectangle2D boundary = new Rectangle2D(270, 190, 100, 100);
+        return boundary; 
     }
     
     public void init(Stage stage) {
@@ -49,6 +62,7 @@ public class TallGrassScene  {
     public void backgroundCanvas() {
         try {
             this.ctx.drawImage(this.background, 0, 0, 640, 480);
+            this.getTallGrassBoundary();
         } catch (Exception e) {
             System.out.println(e);
         }
