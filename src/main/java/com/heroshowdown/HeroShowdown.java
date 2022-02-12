@@ -110,11 +110,15 @@ public class HeroShowdown {
         int randomInt = ((int) (Math.random() * max)) + min; 
         
         if (randomInt == 4) {
-            System.out.print("\nLucks in the air, " + p1.getName() + " was resurrected!");
-            scan.nextLine();
-            System.out.println();
+            System.out.print("\nLucks in the air, " + p1.getName() + " can be resurrected! Do you want to revive him? (y/n): ");
+            String response = scan.nextLine();
+            if (response.equals("Y") || response.equals("y")) {
+                System.out.println("\n" + p1.getName() + " was resurrected.");
+                return true; 
+            }
+            System.out.println("\n" + p1.getName() + " was not resurrected. :(");
         }
-        return randomInt == 4; 
+        return false; 
     }
 
     private void ultimateShowDown(GoodGuy p1, BadGuy p2, String[] args) {
