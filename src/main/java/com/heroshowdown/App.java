@@ -1,9 +1,11 @@
 package com.heroshowdown;
 
-public class App 
-{
+import com.heroshowdown.BattleScene.UltimateShowdown;
+
+public class App {
     public static void main( String[] args )
     {
-        new HeroShowdown();
+        UltimateShowdown.main(args);
+        // new HeroShowdown(args);
     }
 }

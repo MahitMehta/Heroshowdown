@@ -1,7 +1,6 @@
 package com.heroshowdown;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.heroshowdown.BattleScene.UltimateShowdown;
 
 public class HeroShowdown {
@@ -9,7 +8,7 @@ public class HeroShowdown {
     public static Scanner scan = new Scanner(System.in);
     private boolean showdownEventOccured = false; 
 
-    public HeroShowdown() {
+    public HeroShowdown(String[] args) {
         this.townsPeople = new ArrayList<Person>();
         this.safePeople = new ArrayList<Person>();
         this.unfortunateSouls = new ArrayList<Person>();
@@ -34,16 +33,14 @@ public class HeroShowdown {
         Person zekrom = new BadGuy("Zekrom", "Destroy Pikahu", "Teravolt", false, 15, "Mwahahahaha");
         this.townsPeople.add(zekrom);
 
-        new UltimateShowdown();
-
-        // while (this.continueGame()) {
-        //     this.roundInteraction();
-        //     if (this.continueGame()) {
-        //         System.out.print("\nPress any key to continue: ");
-        //         scan.nextLine();
-        //         System.out.println("");
-        //     }
-        // }
+        while (this.continueGame()) {
+            this.roundInteraction(args);
+            if (this.continueGame()) {
+                System.out.print("\nPress any key to continue: ");
+                scan.nextLine();
+                System.out.println("");
+            }
+        }
     }
 
     private boolean continueGame() {
@@ -51,10 +48,10 @@ public class HeroShowdown {
     }
 
     public static void main(String[] args) {
-        new HeroShowdown();
+        new HeroShowdown(args);
     }
 
-    private void roundInteraction() {
+    private void roundInteraction(String[] args) {
         Person p1 = this.townsPeople.remove((int) (Math.random() * this.townsPeople.size()));
         Person p2 = this.townsPeople.remove((int) (Math.random() * this.townsPeople.size()));
 
@@ -68,9 +65,9 @@ public class HeroShowdown {
             } else if (p1 instanceof BadGuy && p2 instanceof BadGuy) {
             } else {
                 if (p1 instanceof GoodGuy) {
-                    this.ultimateShowDown((GoodGuy) p1, (BadGuy) p2);
+                    this.ultimateShowDown((GoodGuy) p1, (BadGuy) p2, args);
                 } else {
-                    this.ultimateShowDown((GoodGuy) p2, (BadGuy) p1);
+                    this.ultimateShowDown((GoodGuy) p2, (BadGuy) p1, args);
                 }
             }
         } else if (p1 instanceof SuperHero && p2 instanceof NormalGuy) {
@@ -117,11 +114,13 @@ public class HeroShowdown {
         return randomInt == 4; 
     }
 
-    private void ultimateShowDown(GoodGuy p1, BadGuy p2) {
+    private void ultimateShowDown(GoodGuy p1, BadGuy p2, String[] args) {
         System.out.println("\nUltimate showdown commences");
-        System.out.println(p1.getCurrentPowerLevel());
-        System.out.println(p2.getPowerLevel());
-        this.showdownEventOccured = true; 
+        // System.out.println(p1.getCurrentPowerLevel());
+        // System.out.println(p2.getPowerLevel());
+        this.showdownEventOccured = true;
+
+        UltimateShowdown.main(args); 
     }
 
     private void badGuyWithNormalGuyInteraction(BadGuy p1, NormalGuy p2) {
