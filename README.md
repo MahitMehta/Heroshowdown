@@ -9,7 +9,7 @@
 # About
 
 This is a Maven and JavaFX project for AP Computer Science Class 2021-22 and it is 
-supposed to demonstrate skills of Polymorhphism. 
+suppose to demonstrate skills of Polymorphism. 
 
 # Modifications
 
