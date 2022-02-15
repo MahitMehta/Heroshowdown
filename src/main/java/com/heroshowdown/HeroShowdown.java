@@ -142,11 +142,10 @@ public class HeroShowdown {
         System.out.println("\nTownsPeople: " + this.townsPeople);
         System.out.println("\nSafe People: " + this.safePeople);
         System.out.println("\nUnfortunate Souls: " + this.unfortunateSouls + "\n");
-        // System.out.println(p1.getCurrentPowerLevel());
-        // System.out.println(p2.getPowerLevel());
+        
         this.showdownEventOccured = true;
 
-        UltimateShowdown.main(args); 
+        UltimateShowdown.main(args, Integer.toString(p1.getCurrentPowerLevel()), Integer.toString(p2.getPowerLevel())); 
     }
 
     private void badGuyWithNormalGuyInteraction(BadGuy p1, NormalGuy p2) {

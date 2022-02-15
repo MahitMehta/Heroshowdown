@@ -28,3 +28,6 @@ To make this functionality, I created a "resurrectedUnfortunateSoul" method whic
 
 The Special Sauce I decided to include was making a JavaFX application open up when the Good Guy and Bad Guy face off. While I was not able to finish the mini game scene I wanted to create, I did manage to create a map where a Pokemon battler can search the Super Villian in tall grass and eventually engage in a battle scene. 
 
+# Update 
+
+As of 02/14/2022, I added a few finishing touches to the graphical portion of this project just to make the experience complete.

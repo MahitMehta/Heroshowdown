@@ -1,12 +1,12 @@
 package com.heroshowdown.BattleScene;
-import java.util.Collection;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
@@ -19,62 +19,56 @@ public class UltimateShowdown extends Application {
     private Canvas canvas; 
     private GraphicsContext ctx; 
 
-    // Power Levels
-    private int heroPowerLevel; 
-    private int enemyPowerLevel; 
+    // Objects
+    private final Button button; 
 
     // Characters 
     private final Player player; 
+    private final Pokemon goodPokemon; 
+    private final Pokemon badPokemon; 
 
     // Scenes
     private final TallGrassScene tallGrassScene; 
     private final BattleScene battleScene; 
-
-    public void setEnemyPowerLevel(int level) {
-        this.enemyPowerLevel = level; 
-    }
-
-    public void setHeroPowerLevel(int level) {
-        this.heroPowerLevel = level; 
-    }
 
     /** @Override */
     public void start(final Stage rootStage) throws Exception {
         this.rootStage = rootStage;
         this.rootStage.setTitle("Ultimate Showdown");
         this.rootStage.show();
+        
         this.rootStage.setMinHeight(this.HEIGHT);
         this.rootStage.setMinWidth(this.WIDTH);
         this.rootStage.setResizable(false);
         this.tallGrassScene.init(this.rootStage);
         this.battleScene.init(this.rootStage);
 
+        Parameters params = getParameters();
+
+        List<String> powerLevels = params.getUnnamed(); 
+        
+        this.goodPokemon.setPowerLevel(Integer.parseInt(powerLevels.get(0)));
+        this.badPokemon.setPowerLevel(Integer.parseInt(powerLevels.get(1))); 
+
         AnimationTimer timer = new AnimationTimer() {
             /** @Override */
             public void handle(long now) {
-                ctx.clearRect(0, 0, 640, 480);
-                // render
-
                 StackPane pane = new StackPane();
                 Scene scene = new Scene(pane);
 
-                Button button = new Button("Next");
-
-                button.setTranslateX(250);
-                button.setTranslateY(170);
-
-                pane.getChildren().addAll(canvas);
-                if (player.getDisplayBattle()) {
-                    pane.getChildren().add(button);
-                }
+                pane.getChildren().add(canvas);
 
                 if (!player.getDisplayBattle()) {
                     tallGrassScene.render();
                     player.render(tallGrassScene.playerIntersectingTallGrass());
                 } else {
-                    button.requestFocus();
-                    tallGrassScene.getAudioManager().fieldMusic.stop();
-                    battleScene.render(heroPowerLevel, enemyPowerLevel, button);
+                    button.setTranslateX(250);
+                    button.setTranslateY(170);
+
+                    pane.getChildren().add(button);
+
+                    tallGrassScene.getFieldMusic().stop();
+                    battleScene.render(button);
                 }
             
                 rootStage.setScene(scene);
@@ -89,17 +83,19 @@ public class UltimateShowdown extends Application {
         this.ctx = canvas.getGraphicsContext2D();
     
         this.player = new Player(ctx);
+        this.goodPokemon = new Pokemon("Aardart", "sprites/aardart-back.png");
+        this.badPokemon = new Pokemon("Bamboom", "sprites/bamboon-front.png");
+
         this.tallGrassScene = new TallGrassScene(ctx, this.player);
-        this.battleScene = new BattleScene(ctx);
+        this.battleScene = new BattleScene(ctx, goodPokemon, badPokemon);
+
+        this.button = new Button("Next");
     }       
 
-    public static void main(String[] args) {
-        Application.launch(args);
-        new UltimateShowdown();
+    public static void main(String[] args, String heroPowerLevel, String enemyPowerLevel) {
+        Application.launch(UltimateShowdown.class, heroPowerLevel, enemyPowerLevel);
     }
 
     /** @override */
-    public void stop(){
-        //System.out.println("\nArraylists...\n");
-    }
+    public void stop(){}
 }   

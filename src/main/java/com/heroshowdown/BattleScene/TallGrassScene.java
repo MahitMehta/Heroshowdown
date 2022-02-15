@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.Rectangle;
 import javafx.stage.Stage;
@@ -24,16 +25,17 @@ import org.mapeditor.core.TileLayer;
 import org.mapeditor.io.TMXMapReader;
 
 public class TallGrassScene  {
-    private final AudioManager audio;
+    private final MediaPlayer fieldMusic = AudioManager.fieldMusic;  
     private final Player player; 
     private final GraphicsContext ctx; 
+    private final MessageConsole messageConsole; 
     private Stage rootStage; 
     private Image background; 
 
-    public AudioManager getAudioManager() { return this.audio; }
+    public MediaPlayer getFieldMusic() { return this.fieldMusic; }
 
     public TallGrassScene(GraphicsContext ctx, Player player) {
-        this.audio = new AudioManager();
+        this.messageConsole = new MessageConsole(ctx, 20, 20);
         this.player = player; 
         this.ctx = ctx; 
 
@@ -55,7 +57,7 @@ public class TallGrassScene  {
     
     public void init(Stage stage) {
         this.rootStage = stage; 
-        this.audio.fieldMusic.play();
+        this.fieldMusic.play();
         // this.mapTiles();
     }
 
@@ -114,5 +116,7 @@ public class TallGrassScene  {
     public void render() {
         this.backgroundCanvas();
         // this.backgroundPanel();
+        this.messageConsole.setMessage("The Evil Pokemon is Close! Roam around the Tall Grass to Find Him.");
+        this.messageConsole.render();
     }
 }

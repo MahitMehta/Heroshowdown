@@ -85,6 +85,7 @@ public class Player {
     public void attemptIntersectPokemon() {
         int randomChance = (int) (Math.random() * 50);
         if (randomChance == 9) {
+            AudioManager.blipSoundEffect.play();
             this.displayBattle = true; 
         }
     }
